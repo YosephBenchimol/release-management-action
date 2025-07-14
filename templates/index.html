@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Univisión DevOps AI</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 px-6 py-10">
+
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-blue-900">Univisión DevOps AI</h1>
+      <a href="?reset=1" class="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600">🔄 Reset Session</a>
+    </div>
+
+    <!-- Generate Release -->
+    <form method="post" class="bg-white p-6 rounded shadow mb-8">
+      <label for="tag" class="block text-gray-700 font-semibold mb-2">Generate Word Document from Version Tag:</label>
+      <div class="flex items-center gap-4">
+        <input type="text" name="tag" placeholder="e.g. v1.109.0-beta.4" required class="flex-1 border border-gray-300 rounded px-3 py-2">
+        <button type="submit" name="action" value="generate" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded">Generate</button>
+      </div>
+    </form>
+
+    {% if release_text %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Left panel -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Release: <span class="text-blue-600">{{ version_tag }}</span></h2>
+        <div class="flex gap-4 mb-4">
+          <a href="{{ url_for('static', filename=word_filename) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">📄 Download Word Doc</a>
+          <a href="{{ ticket_url }}" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm">🔗 View in Jira</a>
+        </div>
+
+        {% if release_history %}
+        <div class="mt-6 border-t pt-4">
+          <h3 class="text-md font-semibold text-gray-700 mb-2">📁 Previous Releases</h3>
+          <ul>
+            {% for r in release_history %}
+            <li class="text-sm text-gray-700 mb-1">
+              {{ r.version }} — {{ r.date }}
+              <a href="{{ url_for('static', filename=r.file) }}" class="text-blue-500 hover:underline ml-2">⬇ Download</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Right panel -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Chat with AI about this Release</h2>
+        <div class="space-y-2 max-h-64 overflow-y-auto mb-4">
+          {% for entry in chat_history %}
+          <div class="text-sm">
+            {% if entry.role == 'user' %}
+              <span class="font-semibold text-blue-600">You:</span>
+            {% else %}
+              <span class="font-semibold text-green-600">AI:</span>
+            {% endif %}
+            <span>{{ entry.content }}</span>
+          </div>
+          {% endfor %}
+        </div>
+
+        <form method="post">
+          <input type="hidden" name="version_tag" value="{{ version_tag }}">
+          <textarea name="question" rows="3" placeholder="Ask something about the release..." required class="w-full border border-gray-300 rounded p-2 mb-2"></textarea>
+          <button type="submit" name="action" value="ask" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">Send</button>
+        </form>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Compare Releases Section (Always visible) -->
+    <div class="mt-12 bg-white rounded-lg shadow p-6 max-w-4xl mx-auto">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">🧠 Compare Two Releases</h2>
+      <form method="post" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input type="hidden" name="action" value="compare">
+
+        <div>
+          <label for="release_a" class="block text-sm font-medium text-gray-700 mb-1">Release A</label>
+          <input type="text" name="release_a" placeholder="e.g. v1.110.0" required class="w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+
+        <div>
+          <label for="release_b" class="block text-sm font-medium text-gray-700 mb-1">Release B</label>
+          <input type="text" name="release_b" placeholder="e.g. v1.111.0" required class="w-full border border-gray-300 rounded px-3 py-2">
+        </div>
+
+        <div class="md:col-span-2 text-right">
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded">
+            🔍 Compare Releases
+          </button>
+        </div>
+      </form>
+
+      {% if comparison_result %}
+      <div class="mt-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">🔎 Comparison Result</h3>
+        <pre class="bg-gray-100 p-4 rounded text-sm whitespace-pre-wrap">{{ comparison_result }}</pre>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+</body>
+</html>
