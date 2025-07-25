@@ -1,11 +1,11 @@
 import sys
-from release_utils import get_release_data
-from gpt_utils import (
+from release_ai_dashboard.release_utils import get_release_data
+from release_ai_dashboard.gpt_utils import (
     generate_release_doc_with_gpt,
     generate_professional_word
 )
-from adf_utils import build_rich_adf_description
-from jira_utils import create_jira_ticket
+from release_ai_dashboard.adf_utils import build_rich_adf_description
+from release_ai_dashboard.jira_utils import create_jira_ticket
 
 def main():
     if len(sys.argv) != 2:
@@ -15,10 +15,10 @@ def main():
     version_tag = sys.argv[1]
     print(f"🚀 Generando release para: {version_tag}")
 
-    # 🔥 Obtener release notes y tickets (usa datos quemados si no hay API)
+    # 🔥 Obtener release notes y tickets
     release_notes, tickets_info = get_release_data(version_tag)
 
-    # 🧠 Generar contenido usando GPT
+    # 🧠 Generar contenido con GPT
     gpt_output = generate_release_doc_with_gpt(version_tag, release_notes, tickets_info)
 
     # 📄 Crear documento Word
