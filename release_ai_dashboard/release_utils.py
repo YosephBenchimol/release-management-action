@@ -1,15 +1,12 @@
-def get_release_data():
-    release_notes = """
-### Features
-- [CWB-14400] New carousel added to homepage
-- [CWB-14410] Improved video playback performance
+from github_utils import get_release_notes
 
-### Bug Fixes
-- [CWB-14390] Fixed login redirect bug
-"""
-    tickets_info = """
-CWB-14400: Implemented new homepage carousel. Status: Done.
-CWB-14410: Optimized video buffers for smoother playback. Status: Done.
-CWB-14390: Login redirect caused blank page. Fixed. Status: Done.
-"""
+def get_release_data(version_tag):
+    """
+    Devuelve los release notes desde GitHub y los tickets desde Jira (mock por ahora).
+    """
+    release_notes = get_release_notes(version_tag)
+
+    # Por ahora, los tickets son simulados
+    tickets_info = "Ticket info not yet connected"
+
     return release_notes, tickets_info
