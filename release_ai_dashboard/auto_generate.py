@@ -1,7 +1,7 @@
 import sys
 import os
 from dotenv import load_dotenv
-from release_utils import get_release_data
+from release_ai_dashboard.release_utils import get_release_data
 from gpt_utils import generate_release_doc_with_gpt, generate_professional_word
 
 load_dotenv()
