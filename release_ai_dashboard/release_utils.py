@@ -1,4 +1,4 @@
-from release_ai_dashboard.github_utils import get_release_notes
+from .github_utils import get_release_notes
 
 def get_release_data(version_tag):
     release_notes = get_release_notes(version_tag)
