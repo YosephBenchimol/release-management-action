@@ -32,5 +32,7 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TOKEN_GITHUB_PUBLISH: ${{ secrets.TOKEN_GITHUB_PUBLISH }}
+          REPO_NAME: YosephBenchimol/release-agent
         run: |
-          python release_ai_dashboard/auto_generate.py ${{ github.ref_name }}
+          python -m release_ai_dashboard.auto_generate ${{ github.ref_name }}
