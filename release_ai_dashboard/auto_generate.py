@@ -7,12 +7,13 @@ from release_ai_dashboard.gpt_utils import (
 from release_ai_dashboard.adf_utils import build_rich_adf_description
 from release_ai_dashboard.jira_utils import create_jira_ticket
 
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python -m release_ai_dashboard.auto_generate <version_tag>")
-        sys.exit(1)
+def main(version_tag=None):
+    if not version_tag:
+        if len(sys.argv) != 2:
+            print("Usage: python -m release_ai_dashboard.auto_generate <version_tag>")
+            sys.exit(1)
+        version_tag = sys.argv[1]
 
-    version_tag = sys.argv[1]
     print(f"🚀 Generating release for: {version_tag}")
 
     # 🔍 Get release notes and tickets
