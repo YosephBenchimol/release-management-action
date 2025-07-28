@@ -9,27 +9,32 @@ from release_ai_dashboard.jira_utils import create_jira_ticket
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python auto_generate.py <version_tag>")
+        print("Usage: python -m release_ai_dashboard.auto_generate <version_tag>")
         sys.exit(1)
 
     version_tag = sys.argv[1]
-    print(f"🚀 Generando release para: {version_tag}")
+    print(f"🚀 Generating release for: {version_tag}")
 
-    # 🔥 Obtener release notes y tickets
+    # 🔍 Get release notes and tickets
     release_notes, tickets_info = get_release_data(version_tag)
 
-    # 🧠 Generar contenido con GPT
+    if not release_notes:
+        print("❌ No release notes found. Aborting.")
+        sys.exit(1)
+
+    # 🤖 Generate content with GPT
     gpt_output = generate_release_doc_with_gpt(version_tag, release_notes, tickets_info)
 
-    # 📄 Crear documento Word
+    # 📄 Create Word document
     docx_filename = generate_professional_word(version_tag, gpt_output)
-    print(f"✅ Documento Word generado: {docx_filename}")
+    print(f"✅ Word document generated: {docx_filename}")
 
-    # 🧱 Crear descripción en ADF para Jira
+    # 🧱 Build ADF description for Jira
     adf_description = build_rich_adf_description(version_tag, gpt_output)
 
-    # 🧾 Crear ticket en Jira
+    # 🧾 Create Jira ticket
     create_jira_ticket(version_tag, adf_description)
+    print("✅ Jira ticket created successfully.")
 
 if __name__ == "__main__":
     main()
