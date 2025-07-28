@@ -1,7 +1,7 @@
 # run_release.py
 
 import sys
-from auto_generate import main
+from release_ai_dashboard.auto_generate import main
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

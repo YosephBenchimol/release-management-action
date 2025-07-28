@@ -33,4 +33,5 @@ jobs:
           TOKEN_GITHUB_PUBLISH: ${{ secrets.TOKEN_GITHUB_PUBLISH }}
           REPO_NAME: YosephBenchimol/release-agent
         run: |
+          export PYTHONPATH="${PYTHONPATH}:$(pwd)"
           python release_ai_dashboard/run_release.py ${{ github.ref_name }}
