@@ -1,8 +1,6 @@
 name: Generate Release Documentation
 
 on:
-  release:
-    types: [published]
   push:
     tags:
       - 'v*'
@@ -23,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r release_ai_dashboard/requirements.txt
+          pip install -r requirements.txt
 
       - name: Generate release document
         env:
@@ -35,4 +33,4 @@ jobs:
           TOKEN_GITHUB_PUBLISH: ${{ secrets.TOKEN_GITHUB_PUBLISH }}
           REPO_NAME: YosephBenchimol/release-agent
         run: |
-          python -m release_ai_dashboard.auto_generate ${{ github.ref_name }}
+          python release_ai_dashboard/run_release.py ${{ github.ref_name }}
