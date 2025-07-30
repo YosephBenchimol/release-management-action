@@ -3,7 +3,7 @@ name: Generate Release Documentation
 on:
   push:
     tags:
-      - 'v*'
+      - 'tvapp/v*'
 
 jobs:
   build:
@@ -31,7 +31,13 @@ jobs:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           TOKEN_GITHUB_PUBLISH: ${{ secrets.TOKEN_GITHUB_PUBLISH }}
-          REPO_NAME: YosephBenchimol/release-agent
+          REPO_NAME: televisa-univision/web-release-integration
         run: |
           export PYTHONPATH="${PYTHONPATH}:$(pwd)"
-          python release_ai_dashboard/run_release.py ${{ github.ref_name }}
+          python release_ai_dashboard/run_release.py tvapp/v1.108.0
+
+      - name: Upload generated document
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-doc
+          path: release_ai_dashboard/releases/*.docx
