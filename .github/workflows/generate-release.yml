@@ -1,9 +1,24 @@
 name: Generate Release Documentation
 
 on:
-  push:
-    tags:
-      - 'tvapp/v*'
+  workflow_call:
+    inputs:
+      version_tag:
+        required: true
+        type: string
+    secrets:
+      DEVOPS_GITHUB_TOKEN:
+        required: true
+      OPENAI_API_KEY:
+        required: true
+      JIRA_EMAIL:
+        required: true
+      JIRA_TOKEN:
+        required: true
+      JIRA_URL:
+        required: true
+      TOKEN_GITHUB_PUBLISH:
+        required: true
 
 jobs:
   build:
@@ -25,16 +40,15 @@ jobs:
 
       - name: Generate release document
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          JIRA_URL: ${{ secrets.JIRA_URL }}
           TOKEN_GITHUB_PUBLISH: ${{ secrets.TOKEN_GITHUB_PUBLISH }}
-          REPO_NAME: televisa-univision/web-release-integration
+          GITHUB_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
         run: |
           export PYTHONPATH="${PYTHONPATH}:$(pwd)"
-          python release_ai_dashboard/run_release.py tvapp/v1.108.0
+          python release_ai_dashboard/run_release.py ${{ inputs.version_tag }}
 
       - name: Upload generated document
         uses: actions/upload-artifact@v4
