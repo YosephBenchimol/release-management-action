@@ -7,10 +7,6 @@ from docx.shared import Pt
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
-# Carga .env correctamente
-env_path = os.path.join(os.path.dirname(__file__), '.env')
-load_dotenv(dotenv_path=env_path)
-
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     print("❌ OPENAI_API_KEY no está disponible en el entorno.")
