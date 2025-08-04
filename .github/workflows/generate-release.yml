@@ -19,6 +19,9 @@ on:
         required: true
       TOKEN_GITHUB_PUBLISH:
         required: true
+      DISABLE_AI:
+        required: false
+
 
 jobs:
   build:
