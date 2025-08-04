@@ -18,6 +18,21 @@ else:
 client = OpenAI(api_key=api_key)
 
 def generate_release_doc_with_gpt(version_tag, release_notes, tickets_info):
+    if DISABLE_AI:
+        print("⚠️ AI desactivada. Usando contenido de ejemplo.")
+        return f"""
+# 📘 Release Management Document - {version_tag}
+
+## Summary
+- AI disabled. Sample summary only.
+
+## Release Notes
+{release_notes}
+
+## Jira Tickets
+{tickets_info}
+""".strip()
+        
     jira_base_url = "https://televisaunivision.atlassian.net/browse"
 
     enriched_tickets = []
@@ -57,6 +72,10 @@ Generate a professional summary of key changes, followed by detailed sections or
     return response_text
 
 def answer_question_with_gpt(question, release_info, history=None):
+    if DISABLE_AI:
+        print("⚠️ AI desactivada. Devolviendo respuesta fija.")
+        return "AI is currently disabled. No answer available."
+        
     if history is None:
         history = []
 
@@ -103,6 +122,9 @@ Known Issues:
     return response.choices[0].message.content
 
 def compare_releases_with_gpt(release_a: dict, release_b: dict) -> str:
+    if DISABLE_AI:
+        print("⚠️ AI desactivada. Devolviendo comparación genérica.")
+        return "AI comparison is currently disabled. Differences not computed."
     def format_details(details):
         if details and isinstance(details[0], dict):
             return "\n".join(f"- {d.get('ticket', '')}: {d.get('description', '')}" for d in details)
