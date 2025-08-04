@@ -10,8 +10,11 @@ JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN")
 JIRA_BASE_URL = os.getenv("JIRA_BASE_URL")
 PROJECT_KEY = "CWB"  # Puedes cambiar esto si usas otro proyecto en Jira
 
-if not JIRA_EMAIL or not JIRA_API_TOKEN or not JIRA_BASE_URL:
-    raise ValueError("❌ Missing one or more required JIRA environment variables.")
+if not all([JIRA_URL, JIRA_TOKEN, JIRA_EMAIL]):
+    print("🔍 Debug: JIRA_URL =", JIRA_URL)
+    print("🔍 Debug: JIRA_TOKEN =", JIRA_TOKEN)
+    print("🔍 Debug: JIRA_EMAIL =", JIRA_EMAIL)
+    # raise ValueError("Missing one or more required Jira environment variables.")
 
 def create_jira_ticket(version_tag, adf_description):
     url = f"{JIRA_BASE_URL}/rest/api/3/issue"
