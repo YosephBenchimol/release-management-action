@@ -7,7 +7,7 @@ load_dotenv()
 
 JIRA_EMAIL = os.getenv("JIRA_EMAIL")
 JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN")
-JIRA_BASE_URL = os.getenv("JIRA_BASE_URL")
+JIRA_BASE_URL = "https://televisaunivision.atlassian.net"
 PROJECT_KEY = "CWB"  # Puedes cambiar esto si usas otro proyecto en Jira
 
 if not all([JIRA_BASE_URL, JIRA_API_TOKEN, JIRA_EMAIL]):
