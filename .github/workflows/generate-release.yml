@@ -42,9 +42,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r my-action/requirements.txt
 
-      - name: Check Jira URL
+      - name: Debug env vars
         run: |
-          echo "🔍 JIRA_URL received: ${{ secrets.JIRA_URL }}"
+          echo "🔍 OPENAI_API_KEY is ${OPENAI_API_KEY:0:5}********"
+          echo "🔍 JIRA_EMAIL is ${JIRA_EMAIL}"
+          echo "🔍 JIRA_URL is ${JIRA_URL}"
+          echo "🔍 JIRA_TOKEN is ${JIRA_TOKEN:0:5}********"
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_URL: ${{ secrets.JIRA_URL }}
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
 
       - name: Generate release document
         env:
