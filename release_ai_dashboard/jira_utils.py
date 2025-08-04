@@ -7,7 +7,7 @@ load_dotenv()
 
 JIRA_EMAIL = os.getenv("JIRA_EMAIL")
 JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN")
-JIRA_BASE_URL = os.getenv("JIRA_BASE_URL")
+JIRA_URL = os.getenv("JIRA_URL")
 PROJECT_KEY = "CWB"  # Puedes cambiar esto si usas otro proyecto en Jira
 
 if not all([JIRA_URL, JIRA_TOKEN, JIRA_EMAIL]):
@@ -17,7 +17,7 @@ if not all([JIRA_URL, JIRA_TOKEN, JIRA_EMAIL]):
     # raise ValueError("Missing one or more required Jira environment variables.")
 
 def create_jira_ticket(version_tag, adf_description):
-    url = f"{JIRA_BASE_URL}/rest/api/3/issue"
+    url = f"{JIRA_URL}/rest/api/3/issue"
 
     headers = {
         "Content-Type": "application/json",
