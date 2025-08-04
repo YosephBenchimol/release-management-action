@@ -7,6 +7,8 @@ from docx.shared import Pt
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
+DISABLE_AI = os.getenv("DISABLE_AI", "false").lower() == "true"
+
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     print("❌ OPENAI_API_KEY no está disponible en el entorno.")
