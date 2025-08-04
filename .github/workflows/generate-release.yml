@@ -13,9 +13,9 @@ on:
         required: true
       JIRA_EMAIL:
         required: true
-      JIRA_TOKEN:
+      JIRA_API_TOKEN:
         required: true
-      JIRA_URL:
+      JIRA_BASE_URL:
         required: true
       TOKEN_GITHUB_PUBLISH:
         required: true
@@ -46,20 +46,20 @@ jobs:
         run: |
           echo "🔍 OPENAI_API_KEY is ${OPENAI_API_KEY:0:5}********"
           echo "🔍 JIRA_EMAIL is ${JIRA_EMAIL}"
-          echo "🔍 JIRA_URL is ${JIRA_URL}"
-          echo "🔍 JIRA_TOKEN is ${JIRA_TOKEN:0:5}********"
+          echo "🔍 JIRA_BASE_URL is ${JIRA_BASE_URL}"
+          echo "🔍 JIRA_API_TOKEN is ${JIRA_API_TOKEN:0:5}********"
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
-          JIRA_URL: ${{ secrets.JIRA_URL }}
-          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
       - name: Generate release document
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
-          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
-          JIRA_URL: ${{ secrets.JIRA_URL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           TOKEN_GITHUB_PUBLISH: ${{ secrets.TOKEN_GITHUB_PUBLISH }}
           GITHUB_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
         run: |
