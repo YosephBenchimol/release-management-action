@@ -3,10 +3,10 @@ from github import Github
 
 def get_release_notes(version_tag):
     token = os.getenv("GITHUB_TOKEN")
-    repo_name = os.getenv("GITHUB_REPO")
+    repo_name = os.getenv("GITHUB_REPO") or "televisa-univision/client-web"
 
-    if not token or not repo_name:
-        print("⚠️ No GITHUB_TOKEN o GITHUB_REPO configurado. Usando release notes quemados.")
+    if not token:
+        print("⚠️ No GITHUB_TOKEN configurado. Usando release notes quemados.")
         return f"""
 ### Features
 - [CWB-14201] Added new login flow for kids
@@ -35,4 +35,5 @@ def get_release_notes(version_tag):
     except Exception as e:
         print(f"❌ Error al conectar con GitHub: {e}")
         return f"⚠️ No se pudo obtener el release real para {version_tag}."
+
 
