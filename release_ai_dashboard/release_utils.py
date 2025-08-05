@@ -4,10 +4,10 @@ from github import Github
 
 def get_release_data(version_tag):
     token = os.getenv("GITHUB_TOKEN")
-    repo_name = os.getenv("GITHUB_REPO")
+    repo_name = os.getenv("GITHUB_REPO") or "televisa-univision/client-web"
 
-    if not token or not repo_name:
-        print("❌ No GITHUB_TOKEN o GITHUB_REPO configurado.")
+    if not token:
+        print("❌ No GITHUB_TOKEN configurado.")
         return "⚠️ Error de configuración", []
 
     g = Github(token)
