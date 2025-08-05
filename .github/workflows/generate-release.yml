@@ -66,6 +66,7 @@ jobs:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           TOKEN_GITHUB_PUBLISH: ${{ secrets.TOKEN_GITHUB_PUBLISH }}
           GITHUB_TOKEN: ${{ secrets.DEVOPS_GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: "televisa-univision/client-web"
         run: |
           export PYTHONPATH="${PYTHONPATH}:$(pwd)/my-action"
           python my-action/release_ai_dashboard/run_release.py ${{ inputs.version_tag }}
