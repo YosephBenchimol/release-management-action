@@ -3,7 +3,7 @@ from github import Github
 
 def get_release_notes(version_tag):
     token = os.getenv("GITHUB_TOKEN")
-    repo_name = os.getenv("GITHUB_REPO") or "televisa-univision/client-web"
+    repo_name = os.getenv("REPO_GITHUB") or "televisa-univision/client-web"
 
     if not token:
         print("⚠️ No GITHUB_TOKEN configurado. Usando release notes quemados.")
