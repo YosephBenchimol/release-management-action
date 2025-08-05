@@ -6,6 +6,7 @@ from release_ai_dashboard.gpt_utils import (
 )
 from release_ai_dashboard.adf_utils import build_rich_adf_description
 from release_ai_dashboard.jira_utils import create_jira_ticket
+from release_ai_dashboard.fetchers import fetch_jira_ticket_details  # Asegúrate de tener este archivo
 
 def main(version_tag=None):
     if not version_tag:
@@ -16,19 +17,17 @@ def main(version_tag=None):
 
     print(f"🚀 Generating release for: {version_tag}")
 
-    # 🔍 Get release notes and tickets
-    release_notes, tickets_info = get_release_data(version_tag)
+    # 🔍 Get release notes and ticket IDs from GitHub
+    release_notes, ticket_ids = get_release_data(version_tag)
 
     if not release_notes:
         print("❌ No release notes found. Aborting.")
         sys.exit(1)
 
-    # 🔒 AI/Word Disabled – GPT generation and Word export are skipped
-    # 🤖 gpt_output = generate_release_doc_with_gpt(version_tag, release_notes, tickets_info)
-    # 📄 docx_filename = generate_professional_word(version_tag, gpt_output)
-    # print(f"✅ Word document generated: {docx_filename}")
+    # 🔍 Get full details for each ticket from Jira
+    tickets_info = [fetch_jira_ticket_details(tid) for tid in ticket_ids]
 
-    # 🧱 Use GitHub release notes instead of AI to build ADF
+    # 🧱 Build the ADF description for Jira
     adf_description = build_rich_adf_description(release_notes, tickets_info)
 
     # 🧾 Create Jira ticket
