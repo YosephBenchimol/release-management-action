@@ -22,9 +22,17 @@ def get_release_notes(version_tag):
     try:
         g = Github(token)
         repo = g.get_repo(repo_name)
-        release = repo.get_release(version_tag)
-        print(f"✅ Release encontrado: {release.tag_name}")
-        return release.body or "⚠️ Release sin contenido."
+        releases = repo.get_releases()
+
+        for r in releases:
+            if r.tag_name == version_tag:
+                print(f"✅ Release encontrado: {r.tag_name}")
+                return r.body or "⚠️ Release sin contenido."
+
+        print(f"⚠️ Release con tag {version_tag} no encontrado.")
+        return f"⚠️ No se encontró un release publicado para {version_tag}."
+
     except Exception as e:
         print(f"❌ Error al conectar con GitHub: {e}")
-        return "⚠️ No se pudo obtener el release real."
+        return f"⚠️ No se pudo obtener el release real para {version_tag}."
+
