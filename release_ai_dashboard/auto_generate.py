@@ -23,15 +23,13 @@ def main(version_tag=None):
         print("❌ No release notes found. Aborting.")
         sys.exit(1)
 
-    # 🤖 Generate content with GPT
-    gpt_output = generate_release_doc_with_gpt(version_tag, release_notes, tickets_info)
+    # 🔒 AI/Word Disabled – GPT generation and Word export are skipped
+    # 🤖 gpt_output = generate_release_doc_with_gpt(version_tag, release_notes, tickets_info)
+    # 📄 docx_filename = generate_professional_word(version_tag, gpt_output)
+    # print(f"✅ Word document generated: {docx_filename}")
 
-    # 📄 Create Word document
-    docx_filename = generate_professional_word(version_tag, gpt_output)
-    print(f"✅ Word document generated: {docx_filename}")
-
-    # 🧱 Build ADF description for Jira
-    adf_description = build_rich_adf_description(version_tag, gpt_output)
+    # 🧱 Use GitHub release notes instead of AI to build ADF
+    adf_description = build_rich_adf_description(release_notes, tickets_info)
 
     # 🧾 Create Jira ticket
     create_jira_ticket(version_tag, adf_description)
